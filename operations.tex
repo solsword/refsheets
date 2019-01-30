@@ -1,0 +1,104 @@
+\documentclass{handout}
+\lstset{language=Python}
+
+\title{Operations}
+
+\begin{document}
+
+\section{Grouping}
+
+\noindent
+\code{()} \term{Grouping}: use parentheses to control order of operations.
+
+\noindent
+\code{5 + 4*2 => 13} (multiplication happens first)
+
+\noindent
+\code{(5 + 4)*2 => 18} (addition happens first)
+
+\noindent
+\note{Remember: you can always break up an expression across multiple statements by using an extra variable.}
+
+
+\section{Mathematical Operators}
+
+\noindent
+\code{+} \term{Addition}
+
+\noindent
+\code{-} \term{Subtraction} (or \term{Inversion} if it only has a right-hand operand, so e.g., \code{-(3 + 4) => -7})
+
+\noindent
+\code{*} \term{Multiplication}
+
+\noindent
+\code{/} \term{Division}
+
+\noindent
+\code{//} \term{Rounding Division} (\code{5 / 2 => 2.5}, but \code{5 // 2 => 2})
+
+\noindent
+\code{\%} \term{Remainder} (a.k.a. modulus; computes the remainder after division, so e.g., \code{9 \% 4 => 1}, and \code{12 \% 4 => 0})
+
+\noindent
+\note{Note: Attempting to divide, round-and-divide, or take the remainder using zero as the denominator will result in an error.}
+
+\noindent
+\code{**} \term{Exponentiation} (\code{2**3 => 8}, but also \code{4**0.5 => 2})
+
+\noindent
+\note{Note: Most operators can be combined with an equals sign to operate directly on a variable value and store the result. For example \code{x = x + 5} (operate, then update) is the same as \code{x += 5} (operate-and-update).}
+
+\section{String Operators}
+
+\noindent
+\code{+} \term{Concatenation} (joins two strings into a longer string, so \code{"ab" + "cd" => "abcd"})
+
+\noindent
+\code{*} \term{Repetition} (right-hand operand must be an integer; repeats the string \emph{N} times, so e.g., \code{"abc"*3 => "abcabcabc"})
+
+\section{Logical Operators}
+
+\noindent
+\code{or} \term{Disjunction} (results in \code{True} if either left or right operand is truthy, and \code{False} otherwise)
+
+\noindent
+\code{and} \term{Conjunction} (results in \code{True} if both left and right operands are truthy, and \code{False} otherwise)
+
+\noindent
+\code{not} \term{Negation} (only has one operand, and results in \code{False} if that operand is truthy, and \code{True} otherwise)
+
+\noindent
+\note{Note: an operand is `truthy' if it is \code{True}, or a non-zero number, or a non-empty string. \code{False}, \code{None}, \code{0}, \code{0.0}, and \code{""} all count as \code{False} in situations involving Boolean logic.}
+
+%\section{Bitwise Operators}
+%
+%\code{|}
+%
+%\code{^}
+%
+%\code{\&}
+%
+%\code{~}
+
+%\section{Extraction Operators}
+%
+%\code{[]}
+%
+%\code{[:]}
+
+\section{Code Constructs}
+
+\code{f(,)} \term{Function Call} (Parentheses directly after a name with no operator in between will attempt to invoke the named function. The parentheses may contain multiple expressions separated by commas, and each of these is evaluated from left to right \emph{before} the function is called. So for example, \code{a_function(1*2, 3+4, 5)} will evaluate \code{1*2 => 2}, then evaluate \code{3+4 => 7}, and finally \code{5 => 5}, and then it will invoke the function named \code{a_function} with three arguments: \code{2}, \code{7}, and \code{5}. If \code{a_function} is not a function, or cannot accept 3 arguments, an error will result. In an expression, a function call will evaluate to the return value of the invoked function, so if there's a function called \code{plus} that takes two arguments and returns the result of adding them together, the expression \code{4 + plus(3, 4)} will evaluate to \code{11}, because the function call evaluates to \code{7}.
+
+\code{.} \term{Binding} (The \code{.} operator binds the name on its right within the scope on its left. This means that instead of looking for the right-hand name among normal variables, it is searched for \emph{inside} the left-hand thing (which is usually a module). For example, there is no built-in function called \code{cos}, but the \code{math} module includes a cosine function named \code{cos}, as well as a variable named \code{pi} holding the constant $\pi$. After a statement \code{import math}, the expression \code{math.cos(math.pi/4)} will evaluate to \code{0.7071...} by looking up the \code{cos} function and the \code{pi} variable inside of the \code{math} module. One special use of binding is to call a function that operates on a particular value. For example, the code \code{"abc".upper()} uses the bind operator to bind the function name \code{upper} to the string value \code{"abc"}. That bound function is being called \emph{with no parameters}, but because it is bound, it knows to operate on the object \code{"abc"}, and so it evaluates to the result \code{"ABC"}. So you can think of the bind operator as establishing an extra parameter to the following function when it is not being used with a module on the left-hand side.
+
+\note{Note: when using modules, the statement \code{from module import *} will import all names (functions and variables) from that module into the current module, thus avoiding the need to constantly type \code{module.name}. You can also import just the specific names you need, e.g., \code{from math import cos, pi}.}
+
+\section{Order}
+
+In the absence of explicit grouping using parentheses, the order of operations is determined by their precedence, which is mostly the same as in standard mathematics. So for example, if you write \code{4*5 + 4*3//5}, the first operator to be evaluated is the left-hand multiplication, followed by the right-hand multiplication and then the right-hand rounding division (because multiplication and division have the same precedence, they happen left-to-right). The result will be 22, because \code{4*5 => 20}, \code{4*3 => 12}, \code{12//5 => 2}, and \code{20 + 2 => 22}.
+
+\note{In cases like the example above where it's not completely obvious what happens when, you should \emph{always} add explicit grouping parentheses to be clear about which operations happen in which order. You can also split an expression across multiple statements by storing part of it in a new variable.}
+
+\end{document}

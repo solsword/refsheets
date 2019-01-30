@@ -1,0 +1,65 @@
+\documentclass{handout}
+\lstset{language=Python}
+
+\title{Debugging Techniques}
+
+\begin{document}
+
+\section{Probe \& Trace}
+
+The first debugging technique you should know is called \term{probing}, and it simply means adding a \code{print} statement to the middle of your code to figure out what is going on. The simplest probe is just \code{print("HERE")} to figure out if a piece of code is even executing or not (look for the word \code{HERE} to show up in your console). If this simple probe fails, try to add more probes earlier in the code, and make sure to check if you have any error messages! A more complex probe might print an important value like \code{print(x)}, so that you can see if it has the correct value or not. Don't be afraid to add multiple probes showing all of your important variables.
+
+A more complicated version of the probe technique is the \term{trace}. This involves adding many \code{print} statements throughout your code so that you can see exactly which parts of it are executed. You might say \code{print("A")} in one place, \code{print("B")} in another, and \code{print("C")} in a third place, and so on, and when you run your program, you expect to see it print out \code{A}, then \code{B}, and then \code{C}, but if it skips \code{B}, you'll have learned a little bit about what is going wrong. Tracing can also be useful when there is an error, to figure out how much of the code executes successfully before the error is triggered. Tracing is especially useful when you are programming with loops and/or conditionals.
+
+Tracing can also be used to print not just fixed values like letters, but the values of key variables to discover where an issue first occurs. For example, if your code has a \code{TypeError} because you tried to add a string and an integer, the actual root cause of that error might be a string that came from a parameter which came from a variable assignment that used a function call that, well, you get the picture. By carefully figuring out where a value comes from step by step, and then adding print statements to \emph{all} of those locations, you can see whether that value started out as the wrong type, or whether some particular step along the way turned it into the wrong thing.
+
+\section{Toggle \& Bisect}
+
+If your code is doing something really strange, especially if it is giving you an error on a particular line of code, it is sometimes useful to \term{toggle} that line of code by turning it into a comment (add a \code{#} character at the start of the line). If your code works, even partially, without that line of code, you've at least figured out where your error is. An extension of this is to replace a complicated-and-broken line of code with a dummy, for example, if we have the code:
+
+\begin{lstlisting}
+x = (3*y + 4*z)/w
+\end{lstlisting}
+
+and we think that \code{y} should be holding 2, \code{z} should be holding 3, and \code{w} should be holding 2, we could replace it with:
+
+\begin{lstlisting}
+#x = (3*y + 4*z)/w
+x = 9
+\end{lstlisting}
+
+Then, if our code works with that replacement, we know we can focus on the specific line where the error is. If not, we have larger problems. In most cases, you should also use probing to help figure out what the error is. Notice that we kept the broken code around as a comment, so that we can get it back later when we figure out what the problem is.
+
+\note{Note: Sometimes, commenting out a line of code may cause a syntax error, especially when that line is the only code inside of a function definition, conditional branch, or loop. In these cases, we can add the statement \code{pass}, which doesn't do anything, to handle the syntax error.}
+
+The extension of toggling is \term{bisecting} your code, which is useful when you have an error but you're not sure which line of code it's on. This can happen when you have unbalanced parentheses or brackets. For bisecting, you comment out entire sections of code at once (use your editor's toggle-comment function if it has one) just to figure out where an error is hiding. Start by commenting out about half of your code, and if the error still shows up, you know that the problem is in the uncommented-half, or if it goes away, the problem must be in the part you disabled. Next, comment out half of the remaining area where the problem must be hiding, and keep repeating this process to narrow it down to a single line of code.
+
+\note{Note: in some cases, you may need to add some code, like closing parentheses or brackets, so that the commenting process doesn't create new errors.}
+
+\section{Unpack \& Untangle}
+
+When you've narrowed your issue down to a single line of code, but you still can't figure out what the problem is, it's time to \term{unpack} that line. Often times, you'll have one line of code that's doing a lot of work, for example:
+
+\begin{lstlisting}
+x = 73 / (a + function(b * c))
+\end{lstlisting}
+
+That one line of code has four operations (a multiplication, a function call, an addition, and a division), and any of them might be part of the problem. To unpack part of that expression, we could change the code to be:
+
+\begin{lstlisting}
+x_denominator = (a + function(b*c))
+x = 73 / x_denominator
+\end{lstlisting}
+
+The logical extension of this is \term{untangling}, where we completely unpack an expression to force any errors to show up on separate lines. For this expression, that would look like this:
+
+\begin{lstlisting}
+b_times_c = b*c
+function_result = function(b_times_c)
+x_denominator = (a + function_result)
+x = 73 / x_denominator
+\end{lstlisting}
+
+Untangling can help you isolate an error (which of the four lines does it show up on?) and it can also be convenient because it helps you \term{probe} in more detail, since it's easy to print any of the sub-expressions now that they each have their own variables.
+
+\end{document}

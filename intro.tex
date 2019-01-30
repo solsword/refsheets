@@ -1,0 +1,68 @@
+\documentclass{handout}
+\title{Programming Basics}
+\begin{document}
+\lstset{language=Python}
+
+\section{What is Code?}
+
+Code is interpreted as a sequence of instructions, like a recipe: ``Do X, then Y, then Z.''
+%
+Each instruction manipulates information in the computer, and some instructions send that information somewhere a human can see it, like the screen of your computer.
+%
+\term{Programming} is the art of carefully building sequences of instructions to achieve some pleasing and/or practical result.
+
+\section{The Basics}
+
+Information is stored in things called \term{variables}, using the `\code{=}' instruction, which can be read `gets.' When we say \code{x = 5}, the computer will store the number 5 (which we call a \term{constant}) into a variable called `x'. Unlike in mathematics, the `\code{=}' does not mean ``These two things are always and forever the same.'' Instead it means ``Store this value (on my right) into this variable (on my left).'' So a \emph{sequence of instructions} like:
+\begin{lstlisting}
+x = 5
+x = 6
+\end{lstlisting}
+makes perfect sense to the computer (the 6 replaces the 5), even though it would be a contradiction if we wrote the same statements in mathematics.
+
+
+\section{Statements and Expressions}
+
+Each line of code contains a single \term{statement}, which instructs the computer to do something, but that statement may include multiple \term{expressions}. If we said something like:
+
+\begin{lstlisting}
+x = y*3 + z
+\end{lstlisting}
+
+That statement stores a new value in the variable name `x', but the value that it stores has to be computed by first retrieving information from the variable `y', multiplying by 3, and then retrieving information from the variable `z' and adding the two pieces of information together. By itself, \code{y*3 + z} is an \term{expression}, and evaluating it requires a series of steps dictated by the order of operations. We could also have split this complex expression into two simpler ones by storing the result of the first part of the expression in a new variable:
+
+\begin{lstlisting}
+w = y*3
+x = w + z
+\end{lstlisting}
+
+To understand code, it's important to understand both what order statements are executed in, and which parts of an expression are evaluated in what order.
+
+
+\section{Types of Information}
+
+Information stored in the computer comes in different types, which changes what the computer does with it. For example, ``the number twelve'' is represented in the computer as just the digits \code{12}, but if we put quotes around them, like this: \code{"12"}, it means ``the symbol sequence `1' followed by `2' '' instead. The three most basic types are:
+
+\begin{enumerate}
+  \item Integers, like \code{5} or \code{1000}. These are written normally, and the computer can use them for mathematical operations, like \code{5 + 5}.
+
+  \item Decimal numbers, like \code{5.1} or \code{120.45}. These are separate because the computer represents them differently. These are also called ``floating-point'' numbers, because they can use scientific notation to move their decimal point around (e.g., 100.5 can also be written as $1.005\times10^2$, which can be written in code as \code{1.005e2}).
+
+  \item Text, like `hello', is entered using quotation marks, like this: \code{"hello"}. Without quotation marks, it will be interpreted as a variable name, instead of as text. Pieces of text are referred to as `strings,' and the individual letters that make up the text are called `characters.' Strings can be put together with other strings to make longer strings: \code{"ab" + "cd"} will evaluate to \code{"abcd"}.
+\end{enumerate}
+
+
+\section{Understanding Code}
+
+In order to understand code, whether it's just one line or a whole program, you'll need to answer the following four questions:
+
+\begin{enumerate}
+  \item \textbf{What information is being used?} (What variables are involved? What values are they storing now? What constants are used?)
+  \item \textbf{What operations are being performed?} (What expressions are being evaluated? What order do operations resolve in? Which operation uses which value?)
+  \item \textbf{What is the result?} (How do the operations resolve? Are there any errors or incompatible types of information?)
+  \item \textbf{Where is the result stored?} (If there's an equals sign, what's on the left-hand side of it? If not, does the expression have some kind of side-effect, like displaying information to a human?)
+\end{enumerate}
+
+If you can answer these four questions about one line of code, you'll understand what it is doing, and if you can answer one more question (``\textbf{What's the purpose of this instruction within a program?}''), you'll be able to understand an entire program line-by-line.
+
+\end{document}

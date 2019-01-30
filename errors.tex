@@ -1,0 +1,96 @@
+\documentclass{handout}
+\lstset{language=Python}
+
+\title{Understanding Error Messages}
+
+\begin{document}
+
+\section{Reading Errors}
+
+When first starting to program, it can be overwhelming to encounter an error message, especially because in other contexts, there would be no way for you to fix an error coming from a computer. Now that you're the programmer, however, it's your responsibility to fix any errors that occur, and you have the tools to do so!
+
+\python error messages start with the text ``Traceback (most recent call last)'', and they end with a message that usually begins with a word ending in ``Error'' which tells you what type of error it is. In between, they have a sequence of lines that usually start with ``File'' followed by a filename, paired with lines of code from that file. An example looks like this:
+
+\begin{lstlisting}
+Traceback (most recent call last):
+  File "test.py", line 34, in <module>
+    print(divide(5, 0))
+  File "test.py", line 15, in divide
+    return a / b
+ZeroDivisionError: integer division or modulo by zero
+\end{lstlisting}
+
+In the example above, notice that the first entry in the traceback indicates that on line 34 of the file \texttt{test.py}, the divide function was called as part of an expression. The \code{in <module>} part means that the code was not inside any function. The next entry in the traceback shows which line of code within the \code{divide} function caused the problem: line 15 of the file, where the \code{divide} function tries to return \code{a} divided by \code{b}. In fact, this traceback itself has enough information to see what the error is: on line 34, zero was passed as the second argument to the \code{divide} function, but dividing by zero is an error. Of course, usually the traceback itself doesn't tell you what the problem is, but it does help to understand it.
+
+Looking at the traceback above, we can see that it shows, step-by-step, what happened on the way to the error, with one entry for each function call. So if your error happens in function \code{check_entry} which is called from function \code{check_row} which is called from function \code{check_board} which is called by a test case in your module, then there will be four entries in the traceback: one for the module, and one for each function called. The last line of the traceback shows you the type of the error, and any specific error message associated with it, which sometimes provides additional information. Check the list below for some common error messages and their most likely causes.
+
+\note{Note: Usually, you only have to pay attention to the very last line number in the traceback, because that will indicate where the error occurred, but sometimes, especially if your code calls a built-in function with bad arguments, you will need to read up the traceback until you see the entry for the last function call in your file.}
+
+\section{Common Errors}
+
+The following list hows common errors, the messages associated with them, and the most likely causes of these. It also refers to specific debugging techniques that can be useful in different cases.
+
+\begin{itemize}
+
+\item \code{SyntaxError}
+
+\begin{itemize}
+  \item \code{invalid syntax}---This means that your code could not be run, because it could not be interpreted as a \python statement or expression. Usually, there will be an extra line in the traceback containing an arrow pointing to exactly where the syntax error occurred, but sometimes this won't be useful, especially when an error occurs because you forgot a quote to end a string. Common causes include:
+  \begin{itemize}
+    \item A simple typo resulted in an operator being in the wrong place. These issues are usually easy to fix by simply carefully reading over the line of code. If you're exhausted and/or it's a complicated line of code, \term{untangling} can help isolate the error.
+    \item You forgot a comma in a list of items somewhere, resulting in two items that were supposed to be separate being interpreted as one (malformed) expression. E.g., \code{function(3, 4 5)} here the \code{4 5} does not make sense as an expression, because there should have been a comma between them.
+    \item You forgot a starting or ending quotation mark, bracket, or parenthesis. These errors can be hard to track down when they occur over multiple lines. Use \term{bisecting} to figure out exactly which part of your code has the error in it.
+
+    \note{Note: in \python you are allowed to have an extra comma after the last item in a list or tuple. Including these extra commas can help prevent errors when you later add more items to that list.}
+  \end{itemize}
+\end{itemize}
+
+\item \code{ZeroDivisionError}
+
+\begin{itemize}
+  \item \code{integer division or modulo by zero}---This means that the denominator of a division, rounding division, or remainder operand was zero when the operator was attempted. You should probably \term{probe} and/or \term{unpack} the expression to figure out why and how to fix it.
+\end{itemize}
+
+\item \code{NameError}
+
+\begin{itemize}
+  \item \code{name '...' is not defined}---This error message tells you the actual name that it failed to find. Most cases are just typos in the name of a variable, and easily fixed: if you are going to memorize one error message this should be it. If it's late and you don't trust your typing, copy/paste of variable names may be a good idea, especially if they're complicated and long. Also, make sure to double-check the spelling where the variable is defined, not just where it's used.
+
+  This can also be caused by trying to refer to a parameter outside of the function that defines it, or in some cases trying to refer to a variable before you actually give it a value (although you may get an \code{UnboundLocalError} in some such cases instead).
+\end{itemize}
+
+\item \code{TypeError}
+
+\begin{itemize}
+  \item \code{unsupported operand ...} and \code{can only concatenate ...}---This usually means that you tried an operator with mixed types, such as \code{+} with a number and a string. A combination of \term{untangling} and \term{probing} should be able to resolve the issue.
+  \item \code{... takes ... positional arguments but ... were given} and \code{... takes no positional arguments}---This means that you tried to invoke a function and supplied the wrong number of parameters. Double-check that you're invoking the correct function, and then add or remove the required parameters. Can in some cases be a missing comma among the parameters, but that's rare, as it more often results in a \code{SyntaxError}.
+  
+  \note{Note: If you are calling a function bound to an object (not a module), remember that it will effectively have one extra hidden parameter.}
+  \item \ldots---There are other kinds of \code{TypeError} out there, although they're less common. In general, they are associated with values that have the wrong type to work for a certain purpose, and functions being called in unsupported ways. \term{Untangling}, \term{probing}, and \term{tracing} are your best friends when dealing with all kinds of \code{TypeError}s.
+\end{itemize}
+
+\item \code{ValueError}
+
+\begin{itemize}
+  \item \code{invalid literal for ...}---This means that you tried to convert a string like \code{'hello'} into an integer, which would only work on strings like \code{'10'} or \code{'0'}. The related message \code{could not convert string to float: ...} happens when you use the \code{float()} conversion function instead of \code{int()}. A bit of \term{probing} and/or \term{unpacking} should clear up what the issue is.
+  \item \ldots---There are many different kinds of \code{ValueError}s, so in some cases you may have to figure one out on your own. In general, doing some \term{unpacking} and/or \term{probing} right above where the error occurs should be helpful. Don't forget to read up the traceback to figure out where in your own code the error is triggered if the bottom of the traceback is in someone else's code.
+\end{itemize}
+
+\item \code{RecursionError}
+
+\begin{itemize}
+  \item \code{maximum recursion depth exceeded}---This means that too many function calls tried to happen at once. If you \emph{aren't} trying to use recursion, make sure that none of your functions call themselves, or call each other in a loop. \term{Tracing} should be helpful in this case, although be aware that you may have to scroll up in your output window quite a ways to find the beginning of your output. If you \emph{are} trying to use recursion, check your base case using \term{probing} or \term{tracing}.
+
+  \note{Hint: The traceback for this one should show you exactly which line of code contains the function call to the function that calls itself.}
+\end{itemize}
+
+\item \code{AttributeError}
+
+\begin{itemize}
+  \item \code{... object has no attribute ...}---This happens when using the bind operator if the right-hand name cannot be found inside the left-hand module object. Double-check your spelling, and try \term{probing} the object that's being bound to to check that it is what you think it is.
+\end{itemize}
+
+
+\end{itemize}
+
+\end{document}

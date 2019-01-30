@@ -1,0 +1,251 @@
+\documentclass{handout}
+\lstset{language=Python}
+
+\title{Debugging Techniques}
+
+\cfoot{\emph{Note: To fit examples on this page, short and meaningless variable names have been used. \textbf{DO NOT} do this in your own code.}}
+
+\begin{document}
+
+\section{\term{Probe}}
+
+Add \code{print} statements. Use to:
+
+\begin{itemize}
+
+\item Check if a function is being called or not: \\
+\noindent
+\begin{minipage}[t]{0.45\columnwidth}
+\begin{lstlisting}
+def f(x, y):
+    return x + 3*y
+\end{lstlisting}
+\end{minipage}
+\begin{minipage}[t]{0.05\columnwidth}
+\  \\
+\hspace*{1ex}$\rightarrow$
+\end{minipage}
+\begin{minipage}[t]{0.45\columnwidth}
+\begin{lstlisting}
+def f(x, y):
+    print("HELLO FROM f")
+    return x + 3*y
+\end{lstlisting}
+\end{minipage}
+
+\item Check the value of a variable: \\
+\noindent
+\begin{minipage}[t]{0.45\columnwidth}
+\begin{lstlisting}
+y = 15 / x
+\end{lstlisting}
+\end{minipage}
+\begin{minipage}[t]{0.05\columnwidth}
+\  \\
+\hspace*{1ex}$\rightarrow$
+\end{minipage}
+\begin{minipage}[t]{0.45\columnwidth}
+\begin{lstlisting}
+print("x:", x)
+y = 15 / x
+\end{lstlisting}
+\end{minipage}
+
+\item Check what happens at a conditional: \\
+\noindent
+\begin{minipage}[t]{0.45\columnwidth}
+\begin{lstlisting}
+if x > 5:
+    y = 10
+else:
+    y = 3
+\end{lstlisting}
+\end{minipage}
+\begin{minipage}[t]{0.05\columnwidth}
+\  \\
+\hspace*{1ex}$\rightarrow$
+\end{minipage}
+\begin{minipage}[t]{0.45\columnwidth}
+\begin{lstlisting}
+if x > 5:
+    print("x > 5")
+    y = 10
+else:
+    print("x <= 5")
+    y = 3
+\end{lstlisting}
+\end{minipage}
+
+
+\end{itemize}
+
+\section{\term{Trace}}
+
+Use multiple \term{probes} to understand code. Use to:
+
+\begin{itemize}
+
+\item Figure out where a value comes from: \\
+\noindent
+\begin{minipage}[t]{0.45\columnwidth}
+\begin{lstlisting}
+def f(a):
+    g(a * 3)
+
+def g(b):
+    for i in range(b):
+        h(9-i)
+
+def h(c):
+    print(10/c)
+\end{lstlisting}
+(error if \code{c} is 0 in function \code{h})
+\end{minipage}
+\begin{minipage}[t]{0.05\columnwidth}
+\  \\
+\hspace*{1ex}$\rightarrow$
+\end{minipage}
+\begin{minipage}[t]{0.45\columnwidth}
+\begin{lstlisting}
+def f(a):
+    print("a:", a)
+    g(a * 3)
+
+def g(b):
+    print("b:", b)
+    for i in range(b):
+        print("i:", i)
+        h(9-i)
+
+def h(c):
+    print("c:", c)
+    print(10/c)
+\end{lstlisting}
+\end{minipage}
+
+
+\end{itemize}
+
+\newpage
+
+\section{\term{Unpack}}
+
+Split up a complicated expression into multiple statements. Use this to:
+
+\begin{itemize}
+
+\item Isolate an error in a complex expression: \\
+\noindent
+\begin{minipage}[t]{0.45\columnwidth}
+\begin{lstlisting}
+x = function(
+  (a + 3*b)/(c * d),
+  b / a
+)
+\end{lstlisting}
+(ZeroDivisionError on line 1)
+\end{minipage}
+\begin{minipage}[t]{0.05\columnwidth}
+\  \\
+\hspace*{1ex}$\rightarrow$
+\end{minipage}
+\begin{minipage}[t]{0.45\columnwidth}
+\begin{lstlisting}
+top = a + 3*b
+bot = c * d
+fst = top / bot
+sec = b / a
+x = function(fst, sec)
+\end{lstlisting}
+(ZeroDivisionError on line 4, so \code{a} must be the problem)
+\end{minipage}
+
+\end{itemize}
+
+
+\section{\term{Toggle}}
+
+Turn a line of code into a comment. Use to:
+
+\begin{itemize}
+
+\item Disable (can later re-enable) optional code: \\
+\noindent
+\begin{minipage}[t]{0.45\columnwidth}
+\begin{lstlisting}
+def f(a, b):
+    print("R: ", a/b)
+    return a + b + a
+\end{lstlisting}
+\end{minipage}
+\begin{minipage}[t]{0.05\columnwidth}
+\  \\
+\hspace*{1ex}$\leftrightarrow$
+\end{minipage}
+\begin{minipage}[t]{0.45\columnwidth}
+\begin{lstlisting}
+def f(a, b):
+    #print("R: ", a/b)
+    return a + b + a
+\end{lstlisting}
+\end{minipage}
+
+\item Temporarily replace broken code with a dummy value: \\
+\noindent
+\begin{minipage}[t]{0.45\columnwidth}
+\begin{lstlisting}
+x = (3*y + 4*z)/w
+\end{lstlisting}
+\end{minipage}
+\begin{minipage}[t]{0.05\columnwidth}
+\  \\
+\hspace*{1ex}$\rightarrow$
+\end{minipage}
+\begin{minipage}[t]{0.45\columnwidth}
+\begin{lstlisting}
+#x = (3*y + 4*z)/w
+x = 9
+\end{lstlisting}
+\end{minipage}
+
+\end{itemize}
+
+
+\section{\term{Bisect}}
+
+Comment out half of your code to find the half that works, and then half of the broken part, etc., until you isolate an error. Use this to:
+
+\begin{itemize}
+
+\item Find missing brackets or commas: \\
+\noindent
+\begin{minipage}[t]{0.45\columnwidth}
+\begin{lstlisting}
+pairs = [
+  [0, 1],
+  [10, 11,
+  [20, 21],
+  [30, 31],
+]
+\end{lstlisting}
+(syntax error at end of file)
+\end{minipage}
+\begin{minipage}[t]{0.05\columnwidth}
+\  \\
+\hspace*{1ex}$\rightarrow$
+\end{minipage}
+\begin{minipage}[t]{0.45\columnwidth}
+\begin{lstlisting}
+pairs = [
+#  [0, 1],
+#  [10, 11,
+  [20, 21],
+  [30, 31],
+]
+\end{lstlisting}
+(works now, so error must be in the commented zone)
+\end{minipage}
+
+\end{itemize}
+
+\end{document}

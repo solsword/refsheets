@@ -1,0 +1,61 @@
+\documentclass{handout}
+\lstset{language=Python}
+
+\title{Python Modules}
+
+\begin{document}
+
+\section{Modules}
+
+In \python, code is organized into modules, where each module is stored in a file with a \texttt{.py} extension, or in a folder containing sub-modules and a filed with the special name \texttt{\_\_init\_\_.py}. There are many built-in modules, like \code{math} and \code{random}, and these can be imported from any \python program, but custom modules normally need to be in the same directory in order to import each other.
+
+When you launch \python, which is what happens when you click `run' in your editor, you can tell it to load a certain module as the "main module" (your editor does this for you, specifying the current code file as the main module). \python will run all of the statements in the main module, and then exit. If that main module, has any \code{import} statements, the code from those modules will be run when the \code{import} statement is encountered, unless that module has already been loaded, in which case the already-loaded module is used.
+
+\section{Imports}
+
+There are two ways to import code: first, you can simply write:
+\begin{lstlisting}
+import modulename
+\end{lstlisting}
+to import the module named `modulename', creating a new name in the current module that refers to the imported module. The bind operator, \code{.}, can be used to access variables and functions within the imported module, for example:
+
+\begin{lstlisting}
+import math
+
+print(math.cos(math.pi/4))
+\end{lstlisting}
+
+This code will print the cosine of $\frac{\pi}{4}$, using the \code{cos} function and the \code{pi} variable from the \code{math} module. Imports may also import specific names \emph{from} a module (or even all names from a module using the special \code{*} character) making those functions and variables directly accessible within the current module without the bind operator. For example:
+
+\begin{lstlisting}
+from math import cos, pi
+
+print(cos(pi/4))
+\end{lstlisting}
+
+or
+
+\begin{lstlisting}
+from math import *
+
+print(cos(pi/4))
+\end{lstlisting}
+
+In the second form, using \code{*}, all functions and variables from the \code{math} module are made available in the current module as if they had been defined there.
+
+\note{Note: In either case, the entire \code{math} module is run once to create all of its variables and define its functions, and then some or all of these are made available. There is no way to just run one function from a module without running all of the module's code, although that's usually fine, as modules do not normally do anything besides defining functions and variables.}
+
+\section{\_\_name\_\_}
+
+Whenever \python code is running, there is a special variable called \code{\_\_name\_\_} which holds the name of the module that the code is in. So if we create a file called \code{hello.py} and put the statement \code{print(\_\_name\_\_)} inside of it, if we import that module, it will print \code{hello} when it is imported. However, \python has a special rule about \code{\_\_name\_\_}: when \python is running code as part of a main module that it was told to load, the \code{\_\_name\_\_} variable will hold the special value \code{"\_\_main\_\_"}. So if instead of importing our \code{hello} module, we run it as a main module, it will print out \code{\_\_main\_\_}.
+
+This special variable with its special value is mainly useful for testing code: We can define a block of code (often at the end of a file) that starts with a conditional:
+
+\begin{lstlisting}
+if \_\_name\_\_ == "\_\_main\_\_":
+  \ldots
+\end{lstlisting}
+
+This code will only run when we are running our module as the main module, and so it can include code that tests the rest of the functions in the file and prints out some results of those tests. If someone else wanted to import our module and use the functions or variables we defined, this special testing block would not run (because when being imported, the name of our module is not \code{\_\_main\_\_}), and the person using our code wouldn't have to worry about our code printing extra debugging messages.
+
+\end{document}
