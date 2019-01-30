@@ -1,0 +1,28 @@
+refsheets
+===
+
+Reference sheets for basic CS concepts, intended as concise handouts to help students remember how things work.
+
+Right now mostly in Python, as that's the course I'm teaching, but may attempt other languages at some point.
+
+Finished/reasonable:
+
+* `debugging.tex`
+* `debugging-poster.tex`
+
+Drafts/messy:
+
+* `conditionals.tex`
+* `debug_desc.tex`
+* `dictionaries.tex`
+* `errors.tex`
+* `intro.tex`
+* `lists.tex`
+* `loops.tex`
+* `modules.tex`
+* `operations.tex`
+* `testing.tex`
+
+Future/wishlist?
+
+* ???
