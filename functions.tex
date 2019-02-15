@@ -1,0 +1,94 @@
+\documentclass{handout}
+\lstset{language=Python}
+
+\title{Functions}
+
+\cfoot{\emph{Note: To fit examples on this page, short and meaningless variable and function names have been used. \textbf{DO NOT} do this in your own code.}}
+
+\begin{document}
+\begin{multicols*}{2}
+
+\section{Syntax}
+
+A function definition has four parts:
+\begin{enumerate}
+\item A \term{name}
+\item Zero or more \term{parameters}
+\item At least one \term{body} statement
+\item Optionally, a \code{return} statement
+\end{enumerate}
+
+\begin{minipage}[t]{0.42\columnwidth}
+Without parameters:
+\begin{lstlisting}
+def f():
+    print("Hello")
+\end{lstlisting}
+\end{minipage}
+\begin{minipage}[t]{0.05\columnwidth}
+\ 
+\end{minipage}
+\begin{minipage}[t]{0.42\columnwidth}
+Parameters + return:
+\begin{lstlisting}
+def g(x, y):
+    return x+y
+\end{lstlisting}
+\end{minipage}
+
+\noindent
+\textsl{In these examples \code{f} and \code{g} are the \term{names}, and on the right \code{x} and \code{y} are the \term{parameters}.}
+
+\section{Usage}
+
+\term{Call} a function by itself or as part of an \term{expression} by writing its \term{name} and putting \term{parameters} in parentheses afterwards:
+
+\begin{lstlisting}
+f() # prints "Hello"
+print(5*g(2, 3)) # g returns 5, so this prints 25
+\end{lstlisting}
+
+Instead of copying and pasting code, you can use a function:
+
+\begin{minipage}[t]{0.42\columnwidth}
+\begin{lstlisting}
+animal = "dog"
+print(
+    "I love",
+    animal + "s"
+)
+
+name = "cat"
+print(
+    "I love",
+    animal + "s"
+)
+\end{lstlisting}
+\end{minipage}
+\begin{minipage}[t]{0.05\columnwidth}
+\  \\
+\hspace*{1ex}$\rightarrow$
+\end{minipage}
+\begin{minipage}[t]{0.42\columnwidth}
+\begin{lstlisting}
+def show_love(animal):
+    print(
+        "I love",
+        animal + "s"
+    )
+
+show_love("dog")
+show_love("cat")
+\end{lstlisting}
+\end{minipage}
+
+\noindent
+\term{Parameters} work just like normal \term{variables}, but they get their values from the \term{function call}. The same \term{parameter} may have different values if a function is \term{called} multiple times. Values supplied as \term{parameters} are called \term{arguments}.
+
+\textsl{In the example above, the \term{parameter} \code{animal} has the value
+\code{"dog"} during the first \term{function call} to \code{show_love}, and the
+value \code{"cat"} during the second \term{function call}.}
+
+
+\end{multicols*}
+\end{document}

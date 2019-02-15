@@ -9,9 +9,12 @@
 \RequirePackage{xcolor}
 \RequirePackage{realboxes}
 \RequirePackage{fancyhdr}
-\usepackage[landscape,twocolumn,columnsep=0.5in,top=0.5in,left=0.5in,right=0.5in,bottom=0.5in]{geometry}
+\RequirePackage{multicol}
+\setlength{\columnsep}{0.3in}
+\usepackage[landscape,top=0.5in,left=0.5in,right=0.5in,bottom=0.5in]{geometry}
 \definecolor{palegray}{HTML}{dddddd}
-\definecolor{darkgray}{HTML}{999999}
+\definecolor{midgray}{HTML}{999999}
+\definecolor{darkgray}{HTML}{444444}
 \definecolor{plum}{HTML}{440088}
 \definecolor{pinegreen}{HTML}{006622}
 \definecolor{stormgreen}{HTML}{336644}
@@ -20,7 +23,7 @@
 \definecolor{ruby}{HTML}{880000}
 \definecolor{mahogany}{HTML}{441100}
 
-\definecolor{paleyellow}{HTML}{ffffdd}
+\definecolor{paleyellow}{HTML}{fff8dd}
 \definecolor{cream}{HTML}{f8ffee}
 \definecolor{palelime}{HTML}{eeffdd}
 \definecolor{sakura}{HTML}{ffddee}
@@ -31,7 +34,7 @@
 
 % Listings configuration
 \lstset{
-  backgroundcolor=\color{paleyellow},
+  backgroundcolor=\color{palegray},
   showspaces=false,
   showstringspaces=false,
   xleftmargin=6pt,
@@ -39,21 +42,21 @@
   frame=single,
   framerule=0.75pt,
   framesep=2pt,
-  rulecolor=\color{mahogany},
+  rulecolor=\color{darkgray},
   commentstyle=\slshape\color{steelblue},
   keywordstyle=\bfseries \color{navy},
   stringstyle=\color{ruby},
   basicstyle=\small\ttfamily,
 }
 
-\newcommand{\code}[1]{\Colorbox{paleyellow}{\lstinline!#1!}}
+\newcommand{\code}[1]{\Colorbox{palegray}{\lstinline!#1!}}
 
 % Utility commands
 \newcommand{\term}[1]{%
 {\bfseries \color{navy}#1}%
 }
 
-\newcommand{\note}[1]{{\color{darkgray}\slshape\sffamily#1}}
+\newcommand{\note}[1]{{\color{midgray}\slshape\sffamily#1}}
 
 \newcommand{\python}{\textsc{Python}}
 

@@ -6,6 +6,7 @@
 \cfoot{\emph{Note: To fit examples on this page, short and meaningless variable names have been used. \textbf{DO NOT} do this in your own code.}}
 
 \begin{document}
+\begin{multicols}{2}
 
 \section{\term{Probe}}
 
@@ -15,7 +16,7 @@ Add \code{print} statements. Use to:
 
 \item Check if a function is being called or not: \\
 \noindent
-\begin{minipage}[t]{0.45\columnwidth}
+\begin{minipage}[t]{0.42\columnwidth}
 \begin{lstlisting}
 def f(x, y):
     return x + 3*y
@@ -25,17 +26,17 @@ def f(x, y):
 \  \\
 \hspace*{1ex}$\rightarrow$
 \end{minipage}
-\begin{minipage}[t]{0.45\columnwidth}
+\begin{minipage}[t]{0.42\columnwidth}
 \begin{lstlisting}
 def f(x, y):
-    print("HELLO FROM f")
+    print("IN f")
     return x + 3*y
 \end{lstlisting}
 \end{minipage}
 
 \item Check the value of a variable: \\
 \noindent
-\begin{minipage}[t]{0.45\columnwidth}
+\begin{minipage}[t]{0.42\columnwidth}
 \begin{lstlisting}
 y = 15 / x
 \end{lstlisting}
@@ -44,7 +45,7 @@ y = 15 / x
 \  \\
 \hspace*{1ex}$\rightarrow$
 \end{minipage}
-\begin{minipage}[t]{0.45\columnwidth}
+\begin{minipage}[t]{0.42\columnwidth}
 \begin{lstlisting}
 print("x:", x)
 y = 15 / x
@@ -53,7 +54,7 @@ y = 15 / x
 
 \item Check what happens at a conditional: \\
 \noindent
-\begin{minipage}[t]{0.45\columnwidth}
+\begin{minipage}[t]{0.42\columnwidth}
 \begin{lstlisting}
 if x > 5:
     y = 10
@@ -65,7 +66,7 @@ else:
 \  \\
 \hspace*{1ex}$\rightarrow$
 \end{minipage}
-\begin{minipage}[t]{0.45\columnwidth}
+\begin{minipage}[t]{0.42\columnwidth}
 \begin{lstlisting}
 if x > 5:
     print("x > 5")
@@ -87,7 +88,7 @@ Use multiple \term{probes} to understand code. Use to:
 
 \item Figure out where a value comes from: \\
 \noindent
-\begin{minipage}[t]{0.45\columnwidth}
+\begin{minipage}[t]{0.42\columnwidth}
 \begin{lstlisting}
 def f(a):
     g(a * 3)
@@ -105,7 +106,7 @@ def h(c):
 \  \\
 \hspace*{1ex}$\rightarrow$
 \end{minipage}
-\begin{minipage}[t]{0.45\columnwidth}
+\begin{minipage}[t]{0.42\columnwidth}
 \begin{lstlisting}
 def f(a):
     print("a:", a)
@@ -126,7 +127,7 @@ def h(c):
 
 \end{itemize}
 
-\newpage
+\columnbreak
 
 \section{\term{Unpack}}
 
@@ -136,7 +137,7 @@ Split up a complicated expression into multiple statements. Use this to:
 
 \item Isolate an error in a complex expression: \\
 \noindent
-\begin{minipage}[t]{0.45\columnwidth}
+\begin{minipage}[t]{0.42\columnwidth}
 \begin{lstlisting}
 x = function(
   (a + 3*b)/(c * d),
@@ -149,7 +150,7 @@ x = function(
 \  \\
 \hspace*{1ex}$\rightarrow$
 \end{minipage}
-\begin{minipage}[t]{0.45\columnwidth}
+\begin{minipage}[t]{0.42\columnwidth}
 \begin{lstlisting}
 top = a + 3*b
 bot = c * d
@@ -171,7 +172,7 @@ Turn a line of code into a comment. Use to:
 
 \item Disable (can later re-enable) optional code: \\
 \noindent
-\begin{minipage}[t]{0.45\columnwidth}
+\begin{minipage}[t]{0.42\columnwidth}
 \begin{lstlisting}
 def f(a, b):
     print("R: ", a/b)
@@ -182,7 +183,7 @@ def f(a, b):
 \  \\
 \hspace*{1ex}$\leftrightarrow$
 \end{minipage}
-\begin{minipage}[t]{0.45\columnwidth}
+\begin{minipage}[t]{0.42\columnwidth}
 \begin{lstlisting}
 def f(a, b):
     #print("R: ", a/b)
@@ -192,7 +193,7 @@ def f(a, b):
 
 \item Temporarily replace broken code with a dummy value: \\
 \noindent
-\begin{minipage}[t]{0.45\columnwidth}
+\begin{minipage}[t]{0.42\columnwidth}
 \begin{lstlisting}
 x = (3*y + 4*z)/w
 \end{lstlisting}
@@ -201,7 +202,7 @@ x = (3*y + 4*z)/w
 \  \\
 \hspace*{1ex}$\rightarrow$
 \end{minipage}
-\begin{minipage}[t]{0.45\columnwidth}
+\begin{minipage}[t]{0.42\columnwidth}
 \begin{lstlisting}
 #x = (3*y + 4*z)/w
 x = 9
@@ -219,7 +220,7 @@ Comment out half of your code to find the half that works, and then half of the 
 
 \item Find missing brackets or commas: \\
 \noindent
-\begin{minipage}[t]{0.45\columnwidth}
+\begin{minipage}[t]{0.42\columnwidth}
 \begin{lstlisting}
 pairs = [
   [0, 1],
@@ -234,7 +235,7 @@ pairs = [
 \  \\
 \hspace*{1ex}$\rightarrow$
 \end{minipage}
-\begin{minipage}[t]{0.45\columnwidth}
+\begin{minipage}[t]{0.42\columnwidth}
 \begin{lstlisting}
 pairs = [
 #  [0, 1],
@@ -248,4 +249,5 @@ pairs = [
 
 \end{itemize}
 
+\end{multicols}
 \end{document}
